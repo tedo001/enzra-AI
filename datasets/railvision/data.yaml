@@ -1,0 +1,28 @@
+# RailVision AI — obstacle detection dataset (YOLO26 format)
+# Train a custom detector so the model emits native RailVision class names.
+# Manage image/label versions with DVC (see ../README.md).
+
+path: ../datasets/railvision
+train: images/train
+val: images/val
+test: images/test
+
+# 15-class railway obstacle taxonomy (index order is the contract with the model).
+names:
+  0: human
+  1: cow
+  2: elephant
+  3: dog
+  4: buffalo
+  5: goat
+  6: car
+  7: truck
+  8: bus
+  9: motorcycle
+  10: fallen_tree
+  11: rock
+  12: construction_barrier
+  13: debris
+  14: unknown
+
+nc: 15

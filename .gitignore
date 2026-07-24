@@ -1,0 +1,84 @@
+# ---------------------------------------------------------------------------
+# RailVision AI — .gitignore
+# ---------------------------------------------------------------------------
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.installed.cfg
+*.egg
+.venv/
+venv/
+env/
+.python-version
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# ML / model artifacts
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+*.tflite
+models/weights/*
+!models/weights/.gitkeep
+runs/
+wandb/
+mlruns/
+lightning_logs/
+
+# Datasets (tracked via DVC, not git)
+datasets/**/images/
+datasets/**/labels/
+datasets/**/*.zip
+*.mp4
+*.avi
+*.mov
+!docs/**/*.mp4
+
+# Incidents / storage output
+storage/
+incidents/
+*.log
+logs/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.turbo/
+frontend/.env*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Docker
+docker/data/
