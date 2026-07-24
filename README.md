@@ -22,16 +22,21 @@ sees hazards, judges *how dangerous* each one is, and alerts the operator with
 enough lead time to act.
 
 This is a **clean-room, from-scratch** implementation. Concepts were studied
-from public reference projects for inspiration only; **no code was copied**.
-It deliberately advances beyond typical reference projects:
+from a public reference project
+([`-Railway-Track-Obstacle-Detection-System`](https://github.com/tedo001/-Railway-Track-Obstacle-Detection-System),
+MIT) for inspiration only; **no code was copied** — see
+[`docs/ATTRIBUTION.md`](docs/ATTRIBUTION.md). It deliberately advances beyond it:
 
-| Reference-style project | RailVision AI improvement |
+| Reference project | RailVision AI improvement |
 |---|---|
 | YOLO11 detector | **YOLO26** with a pluggable `BaseDetector` (swap ONNX/TensorRT/mock) |
-| Boxes only | Full pipeline: **track → corridor filter → distance → TTC → risk 0–100 → alerts** |
+| Dual fixed models (fallen-tree + COCO) | **N-model `EnsembleDetector`** fused by cross-model NMS with specialist priority |
+| "Any pixel overlaps ⇒ danger" ROI test | **Foot-point OR overlap-ratio** test — catches trees lying *across* rails without over-triggering |
+| DANGER/SAFE (WARNING is dead code) | Physically-grounded **5-level alerts** from distance + time-to-collision |
+| No tracking / distance / risk | **Tracking IDs → distance → TTC → risk 0–100 → alerts** |
 | Monolithic script | **Modular Clean Architecture** (SOLID, repository pattern, DI container) |
-| Notebook demo | **Production stack**: FastAPI + WebSocket, Next.js dashboard, Postgres/Redis, Docker, tests, MLOps |
-| Crashes without a GPU/weights | **Graceful degradation** — auto-downloads weights, then falls back to a mock detector so it *always* boots |
+| Notebook/script demo | **Production stack**: FastAPI + WebSocket, Next.js dashboard, Postgres/Redis, Docker, tests, MLOps |
+| Roboflow API dependency; crashes without a GPU/weights | **Graceful degradation** — auto-downloads weights, then falls back to a mock detector so it *always* boots |
 
 ## 🧠 How it works
 

@@ -64,6 +64,14 @@ code free of `new`/import-time coupling (Dependency Injection).
 - **`BaseDetector` abstraction (DIP).** YOLO26 is one implementation. Swap for
   ONNX Runtime, TensorRT, or the deterministic `MockDetector` without touching
   the pipeline. Enables the always-boots guarantee.
+- **Ensemble detection.** `EnsembleDetector` *is itself* a `BaseDetector`
+  composing N models (e.g. a general YOLO26 + a domain specialist fine-tuned on
+  rare hazards), fused by cross-model NMS (`ai/nms.py`) with a specialist
+  priority bonus. The pipeline is unchanged whether one or five models run
+  (Liskov substitution).
+- **Two-signal on-track test.** A detection is on-track if its foot point is in
+  the corridor **or** a configurable fraction of its box overlaps the corridor
+  mask — robust for upright obstacles *and* for objects lying across the rails.
 - **Pydantic contracts between stages.** Every stage consumes/produces typed
   `Detection` / `FrameResult` objects, so stages are independently testable and
   composable (Single Responsibility + Open/Closed).
@@ -78,9 +86,11 @@ code free of `new`/import-time coupling (Dependency Injection).
 
 1. `VideoSource` yields a BGR frame.
 2. `auto_enhance` classifies the condition and applies a matching enhancer.
-3. `Yolo26Detector.predict` returns raw `Detection`s.
+3. The detector (`Yolo26Detector` or `EnsembleDetector`) returns raw
+   `Detection`s; ensembles fuse members via cross-model NMS.
 4. `ObjectTracker.update` assigns persistent `track_id`s and foot-point history.
-5. `CorridorSegmenter.is_on_track` flags detections inside the rail corridor.
+5. `CorridorSegmenter.is_on_track` flags detections inside the rail corridor
+   (foot-point OR box overlap-ratio).
 6. `DistanceEstimator.estimate` computes metres for on-track objects.
 7. `CollisionRiskEngine.assess` derives speed, TTC, risk score, alert level.
 8. `AlertManager` computes the overall level + recommendation (+ voice cue).

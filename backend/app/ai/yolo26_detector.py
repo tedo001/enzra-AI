@@ -37,8 +37,17 @@ class DetectorUnavailable(RuntimeError):
 class Yolo26Detector(BaseDetector):
     backend_name = "yolo26-ultralytics"
 
-    def __init__(self, settings: Settings) -> None:
+    def __init__(
+        self,
+        settings: Settings,
+        *,
+        weights_override: str | None = None,
+        backend_name: str | None = None,
+    ) -> None:
         self._settings = settings
+        self._weights_override = weights_override
+        if backend_name:
+            self.backend_name = backend_name
         self._model = None
         self._device = "cpu"
         self._names: dict[int, str] = {}
@@ -54,7 +63,7 @@ class Yolo26Detector(BaseDetector):
                 "ultralytics is not installed; install the '[ai]' extra"
             ) from exc
 
-        weights = Path(self._settings.model_path)
+        weights = Path(self._weights_override or self._settings.model_path)
         if not weights.exists():
             # Zero-config bootstrap: fall back to a pretrained YOLO26 nano
             # checkpoint (auto-downloaded by ultralytics) remapped from COCO.

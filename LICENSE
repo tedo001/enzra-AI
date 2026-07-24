@@ -41,3 +41,11 @@ open-source projects and respects their licenses:
 Concepts (railway hazard detection, corridor masking, collision scoring) were
 studied from public reference projects for inspiration only. No source code
 was copied; this repository is a clean-room implementation.
+
+Reference project studied (MIT-licensed, Copyright (c) 2026):
+  * Railway Track Obstacle Detection System —
+    tedo001/-Railway-Track-Obstacle-Detection-System
+    https://github.com/tedo001/-Railway-Track-Obstacle-Detection-System
+    We independently re-implemented its dual-model ensemble and ROI-overlap
+    ideas in our own architecture. See docs/ATTRIBUTION.md for a full,
+    itemised account of what was studied and how RailVision improves on it.

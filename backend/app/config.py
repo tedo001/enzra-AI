@@ -47,9 +47,25 @@ class Settings(BaseSettings):
     max_det: int = 100
     tracker: Literal["bytetrack", "botsort", "centroid"] = "bytetrack"
 
+    # --- Ensemble detection (general + domain specialist) ---
+    # A specialist model fine-tuned on rare hazards (fallen trees, rock slides,
+    # debris). When set, RailVision runs it alongside the general model and
+    # fuses outputs via cross-model NMS. Empty string disables the ensemble.
+    specialist_model_path: str = ""
+    ensemble_iou_threshold: float = 0.5
+    specialist_conf_bonus: float = 0.05
+
     # --- Segmentation ---
     seg_model_path: str = "models/weights/railvision_seg.pt"
     corridor_mode: Literal["geometric", "model", "hybrid"] = "hybrid"
+    # Minimum fraction of an obstacle's box that must overlap the corridor for
+    # it to count as on-track (in addition to the foot-point test). Guards
+    # against the reference project's "any single pixel" over-triggering.
+    corridor_overlap_ratio: float = 0.12
+    # EMA smoothing for model-predicted corridor polygons (lower = steadier).
+    corridor_smoothing_alpha: float = 0.15
+    # Re-run the (expensive) corridor model every N frames; reuse between.
+    track_detection_interval: int = 3
 
     # --- Depth / distance calibration ---
     camera_height_m: float = 3.5
