@@ -14,10 +14,17 @@ pip install -r desktop/requirements.txt
 python -m desktop.main
 ```
 
+No `pip install -e backend` is needed — `desktop/__init__.py` adds the
+`../backend` directory to `sys.path`, so the app imports the backend straight
+from source.
+
 The app boots even with **no GPU, no weights, and no `ultralytics`** — it falls
 back to the mock detector so the full UI and pipeline are demonstrable
 immediately. Install `ultralytics` + `torch` (and drop trained weights in
 `models/weights/`) for real YOLO26 inference.
+
+> **Windows note:** coloured console logs are optional; if you want them,
+> `pip install colorama`. The app runs fine without it (plain logs).
 
 ## What it does (backend + frontend in one)
 

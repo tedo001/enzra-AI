@@ -13,6 +13,19 @@ import sys
 import structlog
 
 
+def _console_renderer() -> structlog.dev.ConsoleRenderer:
+    """Return a console renderer, preferring colours when supported.
+
+    On Windows, structlog's coloured output requires the optional ``colorama``
+    package and raises ``SystemError`` without it. We degrade to plain output
+    rather than crash, so the app runs everywhere out of the box.
+    """
+    try:
+        return structlog.dev.ConsoleRenderer(colors=True)
+    except SystemError:
+        return structlog.dev.ConsoleRenderer(colors=False)
+
+
 def configure_logging(level: str = "INFO", json_logs: bool = False) -> None:
     """Configure standard logging + structlog processors.
 
@@ -34,9 +47,7 @@ def configure_logging(level: str = "INFO", json_logs: bool = False) -> None:
     ]
 
     renderer = (
-        structlog.processors.JSONRenderer()
-        if json_logs
-        else structlog.dev.ConsoleRenderer(colors=True)
+        structlog.processors.JSONRenderer() if json_logs else _console_renderer()
     )
 
     structlog.configure(

@@ -68,12 +68,13 @@ dashboard in one process — ideal for on-board/edge use or an offline demo.
 
 ```bash
 pip install -r desktop/requirements.txt
-pip install -e backend            # or: pip install -e "backend[ai]" for YOLO26
 python -m desktop.main
 ```
 
-It boots even with no GPU/weights (mock fallback). See
-[`desktop/README.md`](desktop/README.md).
+That's it — the desktop app loads the backend from source (no `pip install`
+needed) and boots even with no GPU/weights (mock fallback). For real YOLO26
+inference, also `pip install ultralytics torch` and drop trained weights in
+`models/weights/`. See [`desktop/README.md`](desktop/README.md).
 
 ### Option C — local dev (web stack)
 

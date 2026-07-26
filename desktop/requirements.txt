@@ -1,6 +1,9 @@
 # RailVision AI — desktop app dependencies
 # Install with:  pip install -r desktop/requirements.txt
-# (also install the backend deps: pip install -e backend  — or backend/requirements)
+#
+# The desktop app loads the backend from source (desktop/__init__.py adds the
+# ../backend dir to sys.path), so you do NOT need `pip install -e backend`.
+# These packages are everything the desktop app imports at runtime.
 
 PyQt6>=6.6
 numpy>=1.26
