@@ -1,0 +1,15 @@
+# RailVision AI — desktop app dependencies
+# Install with:  pip install -r desktop/requirements.txt
+# (also install the backend deps: pip install -e backend  — or backend/requirements)
+
+PyQt6>=6.6
+numpy>=1.26
+opencv-python>=4.9           # full build (GUI codecs) for webcam/file capture
+pydantic>=2.7
+pydantic-settings>=2.3
+structlog>=24.1
+
+# --- Optional ---
+pyttsx3>=2.90                # offline voice alerts (omit for silent mode)
+# ultralytics>=8.3           # real YOLO26 inference (else mock fallback)
+# torch>=2.2                 # GPU acceleration

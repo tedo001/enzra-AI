@@ -82,6 +82,10 @@ class CorridorSegmenter:
         self._cached_mask = None  # invalidate
         return poly
 
+    def set_overlap_ratio(self, ratio: float) -> None:
+        """Live-tune the on-track overlap-ratio threshold (0..1)."""
+        self._overlap_ratio = max(0.0, min(1.0, ratio))
+
     def update_model_polygon(self, raw_polygon: np.ndarray) -> None:
         """Feed a raw model-predicted polygon; applies EMA temporal smoothing.
 

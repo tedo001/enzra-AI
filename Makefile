@@ -19,6 +19,9 @@ backend: ## Run FastAPI backend (reload)
 frontend: ## Run Next.js dev server
 	cd frontend && npm run dev
 
+desktop: ## Run the PyQt6 desktop app (backend + UI in one process)
+	pip install -r desktop/requirements.txt && python -m desktop.main
+
 dev: ## Run full stack via docker-compose
 	docker compose up --build
 

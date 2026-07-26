@@ -61,7 +61,21 @@ docker compose up --build
 # API docs   → http://localhost:8000/docs
 ```
 
-### Option B — local dev
+### Option B — desktop app (no server, no browser)
+
+A native **PyQt6 desktop application** runs the entire pipeline *and* the
+dashboard in one process — ideal for on-board/edge use or an offline demo.
+
+```bash
+pip install -r desktop/requirements.txt
+pip install -e backend            # or: pip install -e "backend[ai]" for YOLO26
+python -m desktop.main
+```
+
+It boots even with no GPU/weights (mock fallback). See
+[`desktop/README.md`](desktop/README.md).
+
+### Option C — local dev (web stack)
 
 ```bash
 # Backend (runs even with no GPU/weights — mock fallback)
@@ -106,6 +120,7 @@ bounding boxes, FPS, risk gauge, obstacle list, alerts and analytics.
 ```
 backend/     FastAPI app — api, ai, detection, tracking, segmentation,
              depth, analytics, alerts, database, utils, mlops, tests
+desktop/     PyQt6 desktop app — runs the pipeline + dashboard in one process
 frontend/    Next.js + TypeScript + Tailwind + ShadCN-style dashboard
 models/      Weights + model-registry docs
 datasets/    YOLO-format dataset spec (DVC-versioned)
